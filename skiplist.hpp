@@ -3,6 +3,7 @@
 #include <memory>
 #include <optional>
 #include <cassert>
+#include <iostream>
 
 namespace haibarapink {
     struct sl_defs {
@@ -32,11 +33,9 @@ namespace haibarapink {
         using node_ptr = node_type*;
 
         static size_t random_level() {
-            size_t v = 1;
-            float  p = 0.5;
-            float rnd = std::abs(std::rand()) / INT_MAX;
-            while (rnd < p && v < sl_defs::MAX_LEVEL) {
-                v += 1;
+            size_t v = (size_t)rand() % 17;
+            if (v == 0) {
+                v ++;
             }
             return v;
         }
@@ -54,6 +53,17 @@ namespace haibarapink {
                 x = next;
             }
             delete head_;
+        }
+
+        void print() {
+            for (int i = l_ - 1; i >= 0 ; --i) {
+                auto x = head_->forwards[i];
+                while (x) {
+                    std::cout << x->k << " -> ";
+                    x = x->forwards[i];
+                }
+                std::cout << std::endl;
+            }
         }
 
         std::optional<val_t> search(const key_t& k) const {

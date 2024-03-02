@@ -1,8 +1,10 @@
 #include "../skiplist.hpp"
 
 class Skiplist {
-    haibarapink::skip_list<int,int> sl;
 public:
+
+    haibarapink::skip_list<int,int> sl;
+
     Skiplist() {}
 
     bool search(int target) {
@@ -35,7 +37,10 @@ int main(int, char**) {
     assert(skiplist.search(0) == false);   // 返回 false
     skiplist.add(4);
     assert(skiplist.search(1));   // 返回 true
+    skiplist.sl.print();
     assert(skiplist.erase(0) == false);    // 返回 false，0 不在跳表中
     assert(skiplist.erase(1));    // 返回 true
     assert(skiplist.search(1) == false);   // 返回 false，1 已被擦
+    skiplist.sl.print();
+
 }
