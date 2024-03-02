@@ -52,5 +52,5 @@ void test_skiplist_operations() {
 }
 
 int main(int, char**) {
-    example_skiplist_operations();
+    test_skiplist_operations();
 }
