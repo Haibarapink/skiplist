@@ -53,6 +53,7 @@ namespace haibarapink {
                 delete x;
                 x = next;
             }
+            delete head_;
         }
 
         std::optional<val_t> search(const key_t& k) const {
@@ -86,10 +87,10 @@ namespace haibarapink {
     };
 
     template <typename key_t, typename val_t>
-    void skip_list<key_t , val_t>::insert(key_t k, val_t v) {
+    inline void skip_list<key_t , val_t>::insert(key_t k, val_t v) {
         std::array<node_ptr, sl_defs::MAX_LEVEL> updates;
         node_ptr x = head_;
-        for (int i = l_; i >= 0 ; --i) {
+        for (int i = l_ - 1; i >= 0 ; --i) {
             // x→key < searchKey ≤ x→forward[i]→key
             while (x->forwards[i] != nullptr && k > x->forwards[i]->k) {
                 x = x->forwards[i];
@@ -117,7 +118,7 @@ namespace haibarapink {
                 l_ = level;
             }
 
-            for (int i = level; i >= 0; --i) {
+            for (int i = level - 1; i >= 0; --i) {
                 new_node->forwards[i] = updates[i]->forwards[i];
                 updates[i]->forwards[i] = new_node;
             }
@@ -125,10 +126,10 @@ namespace haibarapink {
     }
 
     template <typename key_t, typename val_t>
-    void skip_list<key_t , val_t>::erase(const key_t& k) {
+    inline void skip_list<key_t , val_t>::erase(const key_t& k) {
         std::array<node_ptr, sl_defs::MAX_LEVEL> updates;
         auto x = head_;
-        for (int i = l_; i >= 0 ; --i) {
+        for (int i = l_ - 1; i >= 0 ; --i) {
             // x→key < searchKey ≤ x→forward[i]→key
             while (x->forwards[i] != nullptr && k > x->forwards[i]->k) {
                 x = x->forwards[i];
