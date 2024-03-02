@@ -5,6 +5,7 @@
 #include <cassert>
 #include <iostream>
 #include <set>
+#include <random>
 
 namespace haibarapink {
     struct sl_defs {
@@ -34,26 +35,24 @@ namespace haibarapink {
         using node_ptr = node_type*;
 
         static size_t random_level() {
-            size_t v = (size_t)rand() % 17;
-            if (v == 0) {
-                v ++;
-            }
-            return v;
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<size_t> dis(1, sl_defs::MAX_LEVEL);
+            return dis(gen);
         }
 
     public:
         skip_list() {
             head_ = {new node_type {sl_defs::MAX_LEVEL}};
         }
+
         ~skip_list() {
             auto x = head_;
-            x = x->forwards[0];
             while (x) {
                 auto next = x->forwards[0];
                 delete x;
                 x = next;
             }
-            delete head_;
         }
 
         void print() {

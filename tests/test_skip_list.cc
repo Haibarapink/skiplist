@@ -5,7 +5,7 @@
 int main(int, char**) {
     haibarapink::skip_list<int, int> sk;
     std::map<int, int> kv;
-    for (int i = 0; i < 8; ++i ) {
+    for (int i = 0; i < 30; ++i ) {
         int rnd = rand();
         sk.insert(i, rnd);
         kv.emplace(i, rnd);
