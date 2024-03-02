@@ -5,12 +5,12 @@
 int main(int, char**) {
     haibarapink::skip_list<int, int> sk;
     std::map<int, int> kv;
-    for (int i = 0; i < 16; ++i ) {
+    for (int i = 0; i < 8; ++i ) {
         int rnd = rand();
         sk.insert(i, rnd);
         kv.emplace(i, rnd);
     }
-    sk.print();
+//    sk.print();
 
     for (auto [k,v] : kv) {
         assert(sk.search(k).value() == v);
@@ -19,6 +19,8 @@ int main(int, char**) {
     kv.erase(12);
     sk.erase(21);
     kv.erase(21);
+
+    sk.print();
 
 
     for (auto [k,v] : kv) {

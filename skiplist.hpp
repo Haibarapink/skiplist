@@ -4,6 +4,9 @@
 #include <optional>
 #include <cassert>
 #include <iostream>
+#include <set>
+
+std::set<void*> deleted;
 
 namespace haibarapink {
     struct sl_defs {
@@ -58,6 +61,9 @@ namespace haibarapink {
         void print() {
             for (int i = l_ - 1; i >= 0 ; --i) {
                 auto x = head_->forwards[i];
+                if (deleted.find(x) != deleted.end()) {
+                    std::cout << "man" << std::endl;
+                }
                 while (x) {
                     std::cout << x->k << " -> ";
                     x = x->forwards[i];
@@ -118,6 +124,9 @@ namespace haibarapink {
         }
         if (!existed) {
             auto level = random_level();
+            if (level > l_) {
+                level = l_ + 1;
+            }
             // update[0] -> x
             node_ptr new_node = new node_type {std::move(k), std::move(v), level};
 
@@ -147,6 +156,9 @@ namespace haibarapink {
             updates[i] = x;
         }
         x = x->forwards[0];
+        if (!x) {
+            return;
+        }
         if (x->k == k) {
             for (auto i = 0; i < l_; ++i) {
                 if (updates[i]->forwards[i] != x) {
@@ -155,6 +167,7 @@ namespace haibarapink {
                 updates[i]->forwards[i] = x->forwards[i];
             }
             delete x;
+            deleted.template emplace(x);
             while (l_ > 1) {
                 if (!(head_->forwards[l_])) {
                     l_--;
