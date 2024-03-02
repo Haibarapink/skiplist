@@ -6,8 +6,6 @@
 #include <iostream>
 #include <set>
 
-std::set<void*> deleted;
-
 namespace haibarapink {
     struct sl_defs {
         constexpr static size_t MAX_LEVEL = 16;
@@ -61,9 +59,7 @@ namespace haibarapink {
         void print() {
             for (int i = l_ - 1; i >= 0 ; --i) {
                 auto x = head_->forwards[i];
-                if (deleted.find(x) != deleted.end()) {
-                    std::cout << "man" << std::endl;
-                }
+
                 while (x) {
                     std::cout << x->k << " -> ";
                     x = x->forwards[i];
@@ -167,7 +163,6 @@ namespace haibarapink {
                 updates[i]->forwards[i] = x->forwards[i];
             }
             delete x;
-            deleted.template emplace(x);
             while (l_ > 1) {
                 if (!(head_->forwards[l_])) {
                     l_--;
