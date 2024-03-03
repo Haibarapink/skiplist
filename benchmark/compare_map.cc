@@ -5,7 +5,7 @@
 
 int main() {
     // 测试数据
-    const int N = 100000;
+    const int N = 1024*1024;
     std::vector<int> keys;
     for (int i = 0; i < N; ++i) {
         keys.push_back(rand());

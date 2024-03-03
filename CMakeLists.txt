@@ -10,3 +10,4 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg -fsanitize=address -fno-omit-frame-p
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
 add_subdirectory(tests)
 add_subdirectory(benchmark)
+add_subdirectory(example)

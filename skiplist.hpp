@@ -27,16 +27,40 @@ namespace haibarapink {
         sl_node(key_t key, val_t val, size_t level) : k(key), v(val), l(level), forwards(l, nullptr) {}
     };
 
+
+
     template<typename key_t, typename val_t>
     class skip_list {
         using node_type = sl_node<key_t, val_t>;
         using node_ptr = node_type *;
 
         static size_t random_level() {
-            int level = 1;
+            size_t level = 1;
             while (((double)rand() / (RAND_MAX)) < 0.25 && level < sl_defs::MAX_LEVEL) ++level;
             return level;
         }
+    private:
+        class iterator {
+        public:
+            iterator(node_ptr n): cur_(n) {}
+            auto operator*() {
+                std::pair<const key_t&, const val_t&> res {cur_->k, cur_->v};
+                return res;
+            }
+
+            iterator operator++() {
+                cur_ = cur_->forwards[0];
+                return *this;
+            }
+
+            bool operator!=(const iterator& other) const {
+                return cur_ != other.cur_;
+            }
+
+        private:
+            node_ptr cur_;
+        };
+
 
     public:
         skip_list() {
@@ -50,6 +74,14 @@ namespace haibarapink {
                 delete x;
                 x = next;
             }
+        }
+
+        iterator begin() {
+            return iterator{head_->forwards[0]};
+        }
+
+        iterator end() {
+            return iterator{nullptr};
         }
 
         std::optional<val_t> search(const key_t &k) const {
@@ -84,6 +116,7 @@ namespace haibarapink {
     private:
         node_ptr head_;
         size_t l_{1};
+        size_t size_{0};
     };
 
     template<typename key_t, typename val_t>
@@ -104,11 +137,9 @@ namespace haibarapink {
             x->v = std::move(v);
             return;
         }
+        size_++;
         auto level = random_level();
-
-        // update[0] -> x
         node_ptr new_node = new node_type{std::move(k), std::move(v), level};
-
         if (level > l_) {
             level = l_ + 1;
             for (int i = l_; i < level; ++i) {
@@ -138,6 +169,7 @@ namespace haibarapink {
         if (!x || x->k != k) {
             return false;
         }
+        size_--;
         for (int i = 0; i < l_; ++i) {
             if (updates[i]->forwards[i] != x) {
                 break;
