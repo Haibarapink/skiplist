@@ -8,7 +8,7 @@
 
 namespace haibarapink {
     struct sl_defs {
-        constexpr static size_t MAX_LEVEL = 16;
+        constexpr static size_t MAX_LEVEL = 33;
     };
 
     template<typename key_t, typename val_t>
@@ -53,10 +53,10 @@ namespace haibarapink {
             }
         }
 
-        std::optional<val_t> search(const key_t &k) const {
+        bool search(const key_t &k) const {
             auto n = find(k);
             if (!n) {
-                return std::nullopt;
+                return false;
             }
             return n->v;
         }

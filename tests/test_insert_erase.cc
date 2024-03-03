@@ -48,6 +48,6 @@ void test_skiplist_operations() {
 }
 
 int main(int, char**) {
-    for (auto i = 0; i < 2000; ++i)
+    for (auto i = 0; i < 1024*16; ++i)
         test_skiplist_operations();
 }
