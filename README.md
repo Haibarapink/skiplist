@@ -1,8 +1,6 @@
 ### 跳表 SkipList
-
-实现一个支持并发的 skip_list
-
-### 用法 usage
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c5997d8977034f92b5e9147e07942a67)](https://app.codacy.com/gh/Haibarapink/skip-list/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+### 用法 Usage
 include `skiplist.hpp` in your projects.
 
 ```
@@ -25,6 +23,6 @@ include `skiplist.hpp` in your projects.
     } 
 ```
 
-#### 参考 reference
+#### 参考 Reference
 
 https://www.epaperpress.com/sortsearch/download/skiplist.pdf
