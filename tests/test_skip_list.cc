@@ -20,9 +20,6 @@ int main(int, char**) {
     sk.erase(21);
     kv.erase(21);
 
-    sk.print();
-
-
     for (auto [k,v] : kv) {
         assert(sk.search(k).value() == v);
     }

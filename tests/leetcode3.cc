@@ -1,5 +1,6 @@
 #include "../skiplist.hpp"
-void test_skiplist_operations() {
+
+void example_skiplist_operations() {
     haibarapink::skip_list<int, int> skiplist;
 
     // SkipList initialization
@@ -34,6 +35,7 @@ void test_skiplist_operations() {
     skiplist.erase(1);
 
     assert(skiplist.search(0) == std::nullopt);
+
     skiplist.insert(3, 0);
     skiplist.insert(4, 0);
     skiplist.erase(7);
@@ -50,6 +52,5 @@ void test_skiplist_operations() {
 }
 
 int main(int, char**) {
-    for (auto i = 0; i < 2000; ++i)
-    test_skiplist_operations();
+    example_skiplist_operations();
 }

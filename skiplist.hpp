@@ -3,9 +3,9 @@
 #include <memory>
 #include <optional>
 #include <cassert>
-#include <iostream>
 #include <set>
 #include <random>
+
 
 namespace haibarapink {
     struct sl_defs {
@@ -55,18 +55,6 @@ namespace haibarapink {
             }
         }
 
-        void print() {
-            for (int i = l_ - 1; i >= 0 ; --i) {
-                auto x = head_->forwards[i];
-
-                while (x) {
-                    std::cout << x->k << " -> ";
-                    x = x->forwards[i];
-                }
-                std::cout << std::endl;
-            }
-        }
-
         std::optional<val_t> search(const key_t& k) const {
             auto n = find(k);
             if (!n) {
@@ -80,11 +68,14 @@ namespace haibarapink {
     private:
         node_ptr find(const key_t& k) const {
             node_ptr x = head_;
-            for (int i = l_; i >= 0 ; --i) {
+            for (int i = l_ - 1 ; i >= 0 ; --i) {
                 // x→key < searchKey ≤ x→forward[i]→key
-                while (x->forwards[i] != nullptr && k > x->forwards[i]->k) {
+                while ((x->forwards[i] != nullptr) && (k > x->forwards[i]->k)) {
                     x = x->forwards[i];
                 }
+            }
+            if (x->k > k) {
+                throw std::runtime_error{"x->k should smaller than k"};
             }
             x = x->forwards[0];
             if (x && x->k == k) {
@@ -101,9 +92,9 @@ namespace haibarapink {
     inline void skip_list<key_t , val_t>::insert(key_t k, val_t v) {
         std::array<node_ptr, sl_defs::MAX_LEVEL> updates;
         node_ptr x = head_;
-        for (int i = l_ - 1; i >= 0 ; --i) {
+        for (int i = l_ - 1 ; i >= 0 ; --i) {
             // x→key < searchKey ≤ x→forward[i]→key
-            while (x->forwards[i] != nullptr && k > x->forwards[i]->k) {
+            while ((x->forwards[i] != nullptr) && (k > x->forwards[i]->k)) {
                 x = x->forwards[i];
             }
             updates[i] = x;
@@ -112,6 +103,9 @@ namespace haibarapink {
         bool existed = false;
 
         assert(x);
+        if (x->k > k) {
+            throw std::runtime_error{"x->k should smaller than k"};
+        }
         x = x->forwards[0];
         if (x && x->k == k) {
             x->v = std::move(v);
@@ -150,27 +144,28 @@ namespace haibarapink {
             }
             updates[i] = x;
         }
+        if (x->k > k) {
+            throw std::runtime_error{"x->k should smaller than k"};
+        }
         x = x->forwards[0];
         if (!x) {
             return;
         }
         if (x->k == k) {
-            for (auto i = 0; i < l_; ++i) {
-                if (updates[i]->forwards[i] != x) {
-                    break;
+            for (int i = l_ - 1; i >= 0; --i) {
+                if (updates[i]->forwards[i] == x) {
+                    updates[i]->forwards[i] = x->forwards[i];
                 }
-                updates[i]->forwards[i] = x->forwards[i];
             }
             delete x;
             while (l_ > 1) {
-                if (!(head_->forwards[l_])) {
+                if (!(head_->forwards[l_ - 1])) {
                     l_--;
                 } else {
                     break;
                 }
             }
         }
-
     }
 
 }
