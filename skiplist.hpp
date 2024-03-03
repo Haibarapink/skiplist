@@ -29,8 +29,6 @@ namespace haibarapink {
 
     template<typename key_t, typename val_t>
     class skip_list {
-        friend class skip_list_tester;
-
         using node_type = sl_node<key_t, val_t>;
         using node_ptr = node_type *;
 
