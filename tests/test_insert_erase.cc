@@ -2,8 +2,6 @@
 void test_skiplist_operations() {
     haibarapink::skip_list<int, int> skiplist;
 
-    // SkipList initialization
-
     // Perform operations
     skiplist.insert(9, 0);
     skiplist.insert(4, 0);
@@ -51,5 +49,5 @@ void test_skiplist_operations() {
 
 int main(int, char**) {
     for (auto i = 0; i < 2000; ++i)
-    test_skiplist_operations();
+        test_skiplist_operations();
 }
