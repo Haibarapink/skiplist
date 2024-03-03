@@ -4,10 +4,7 @@
 #include <memory>
 #include <optional>
 #include <cassert>
-#include <set>
 #include <random>
-#include <sstream>
-
 
 namespace haibarapink {
     struct sl_defs {
@@ -79,9 +76,7 @@ namespace haibarapink {
                     x = x->forwards[i];
                 }
             }
-            if (x->k > k) {
-                throw std::runtime_error{"x->k should smaller than k"};
-            }
+
             x = x->forwards[0];
             if (x && x->k == k) {
                 return x;
@@ -106,30 +101,27 @@ namespace haibarapink {
             updates[i] = x;
         }
 
-        bool existed = false;
 
         x = x->forwards[0];
         if (x && x->k == k) {
             x->v = std::move(v);
-            existed = true;
+            return;
         }
-        if (!existed) {
-            auto level = random_level();
+        auto level = random_level();
 
-            // update[0] -> x
-            node_ptr new_node = new node_type{std::move(k), std::move(v), level};
+        // update[0] -> x
+        node_ptr new_node = new node_type{std::move(k), std::move(v), level};
 
-            if (level > l_) {
-                for (int i = l_; i < level; ++i) {
-                    updates[i] = head_;
-                }
-                l_ = level;
+        if (level > l_) {
+            for (int i = l_; i < level; ++i) {
+                updates[i] = head_;
             }
+            l_ = level;
+        }
 
-            for (int i = 0; i < level; ++i) {
-                new_node->forwards[i] = updates[i]->forwards[i];
-                updates[i]->forwards[i] = new_node;
-            }
+        for (int i = 0; i < level; ++i) {
+            new_node->forwards[i] = updates[i]->forwards[i];
+            updates[i]->forwards[i] = new_node;
         }
     }
 
