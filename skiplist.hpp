@@ -22,9 +22,9 @@ namespace haibarapink {
 
         std::vector<node_ptr> forwards;
 
-        sl_node(size_t level) : l(level), forwards(l, nullptr) {}
+        sl_node(size_t level) : l(level), forwards(l, nullptr), k{}, v{} {}
 
-        sl_node(key_t key, val_t val, size_t level) : k(key), v(val), l(level), forwards(l, nullptr) {}
+        sl_node(key_t key, val_t val, size_t level) : k(std::move(key)), v(std::move(val)), l(level), forwards(l, nullptr) {}
     };
 
 

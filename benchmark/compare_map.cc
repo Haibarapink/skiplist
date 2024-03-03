@@ -5,7 +5,7 @@
 
 int main() {
     // 测试数据
-    const int N = 1024*1024;
+    const int N = 100000;
     std::vector<int> keys;
     for (int i = 0; i < N; ++i) {
         keys.push_back(rand());
@@ -44,7 +44,8 @@ int main() {
 
         auto start = std::chrono::high_resolution_clock::now();
         for (int key : keys) {
-            stdMap.find(key);
+            auto iter = stdMap.find(key);
+            assert(iter != stdMap.end());
         }
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> duration = end - start;

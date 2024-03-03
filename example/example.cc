@@ -14,7 +14,8 @@ int main(int , char**) {
     }
 
     kv.erase("author");
-    assert(kv.erase("sasha") == false);
+    bool eok = kv.erase("sasha");
+    assert(eok== false);
 
     for (auto iter = kv.begin();iter != kv.end(); ++iter) {
         auto [k,v] = *iter;
