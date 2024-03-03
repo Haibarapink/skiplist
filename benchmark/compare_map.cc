@@ -8,7 +8,7 @@ int main() {
     const int N = 100000;
     std::vector<int> keys;
     for (int i = 0; i < N; ++i) {
-        keys.push_back(i);
+        keys.push_back(rand());
     }
 
     // 使用 std::map 进行插入操作性能测试

@@ -8,7 +8,7 @@
 
 namespace haibarapink {
     struct sl_defs {
-        constexpr static size_t MAX_LEVEL = 33;
+        constexpr static size_t MAX_LEVEL = 32;
     };
 
     template<typename key_t, typename val_t>
@@ -33,10 +33,9 @@ namespace haibarapink {
         using node_ptr = node_type *;
 
         static size_t random_level() {
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<size_t> dis(1, sl_defs::MAX_LEVEL);
-            return dis(gen);
+            int level = 1;
+            while (((double)rand() / (RAND_MAX)) < 0.25 && level < sl_defs::MAX_LEVEL) ++level;
+            return level;
         }
 
     public:
@@ -53,10 +52,10 @@ namespace haibarapink {
             }
         }
 
-        bool search(const key_t &k) const {
+        std::optional<val_t> search(const key_t &k) const {
             auto n = find(k);
             if (!n) {
-                return false;
+                return std::nullopt;
             }
             return n->v;
         }
@@ -111,6 +110,7 @@ namespace haibarapink {
         node_ptr new_node = new node_type{std::move(k), std::move(v), level};
 
         if (level > l_) {
+            level = l_ + 1;
             for (int i = l_; i < level; ++i) {
                 updates[i] = head_;
             }

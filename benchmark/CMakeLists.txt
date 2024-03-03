@@ -1,1 +1,2 @@
 add_executable(compare_map compare_map.cc)
+add_executable(benchmark_map benchmark_map.cc)
