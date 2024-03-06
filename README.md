@@ -1,6 +1,13 @@
-### 跳表 SkipList
+### SkipList
+
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/c5997d8977034f92b5e9147e07942a67)](https://app.codacy.com/gh/Haibarapink/skip-list/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-### 用法 Usage
+
+📕 Support iterator
+
+🚀 Pretty fast skiplist
+
+### Usage
+
 include `skiplist.hpp` in your projects.
 
 ```
@@ -22,7 +29,22 @@ include `skiplist.hpp` in your projects.
         std::cout << k << " " << v << std::endl;
     } 
 ```
+#### Benchmark
+env: intel core i5-10th, linux , g++11.4.0.
 
-#### 参考 Reference
+Insert 1 hundred thousand records
+
+| std::map  | skip_list |
+|-----------|-----------|
+| 0.106978s | 0.147196s |
+
+Search 1 hundred thousand records
+
+| std::map   | skip_list |
+|------------|-----------|
+| 0.0372792s | 0.132071s |
+
+
+#### Reference
 
 https://www.epaperpress.com/sortsearch/download/skiplist.pdf
